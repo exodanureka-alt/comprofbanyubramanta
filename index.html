@@ -3,466 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BANYUBRAMANTA - OFFICIAL STORYBOARD V2</title>
+    <title>BANYUBRAMANTA - Executive Storyboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap');
         
         :root {
-            --primary: #0ea5e9;
-            --bg-dark: #020617;
-            --panel-bg: rgba(15, 23, 42, 0.7);
+            --p-purple: #a855f7;
+            --p-blue: #3b82f6;
+            --p-pink: #ec4899;
+            --bg: #030014;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-dark);
+            background-color: var(--bg);
             color: #f8fafc;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        h1, h2, h3, .font-tech { font-family: 'Space Grotesk', sans-serif; }
+        .font-header { font-family: 'Space Grotesk', sans-serif; }
 
-        .glass-panel {
-            background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        .scene-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-
-        .scene-card::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 20%; bottom: 20%;
-            width: 3px;
-            background: transparent;
-            border-radius: 0 4px 4px 0;
-            transition: all 0.3s;
-        }
-
-        .scene-card:hover {
-            background: rgba(255, 255, 255, 0.03);
-            transform: translateX(4px);
-        }
-
-        .active-scene {
-            background: rgba(14, 165, 233, 0.1) !important;
-            border: 1px solid rgba(14, 165, 233, 0.2) !important;
-        }
-
-        .active-scene::before {
-            background: var(--primary) !important;
-            top: 10%; bottom: 10%;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 30%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        #access-overlay {
+        .cyber-bg {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            background: radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.15), transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15), transparent 40%);
+            z-index: -1;
         }
 
-        .img-container {
-            position: relative;
-            background: #0f172a;
-            border-radius: 28px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
         }
 
-        .img-overlay-info {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(2, 6, 23, 0.95));
-            padding: 32px;
+        .glow-border {
+            border: 1px solid transparent;
+            background: linear-gradient(var(--bg), var(--bg)) padding-box,
+                        linear-gradient(135deg, var(--p-purple), var(--p-blue), var(--p-pink)) border-box;
         }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        
-        .nav-link.active {
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .shake { animation: shake 0.5s; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
-
-        .category-pill {
-            transition: all 0.2s;
+        /* Tactile Experience CSS */
+        .scene-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
+            user-select: none;
         }
 
-        .category-pill.active {
-            background: var(--primary);
+        .scene-card:active {
+            transform: scale(0.96) translateY(4px);
+            filter: brightness(0.8);
+        }
+
+        .scene-card:hover img {
+            transform: scale(1.1) rotate(1deg);
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--p-blue);
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .highlight-box:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .pink-highlight { border-left-color: var(--p-pink); }
+        .purple-highlight { border-left-color: var(--p-purple); }
+
+        .btn-access {
+            background: linear-gradient(90deg, var(--p-purple), var(--p-pink));
+            transition: 0.3s;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(90deg, var(--p-blue), var(--p-purple));
             color: white;
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
         }
 
-        @keyframes slideUp {
+        .custom-input {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .comment-item {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-slide-up { animation: slideUp 0.5s forwards; }
+        .animate-fade { animation: fadeIn 0.6s ease-out forwards; }
     </style>
 </head>
-<body class="bg-slate-950">
+<body>
+    <div class="cyber-bg"></div>
 
-    <!-- Screen Pengunci -->
-    <div id="access-overlay">
-        <div id="lock-card" class="glass-panel p-10 rounded-[40px] max-w-md w-full text-center space-y-8 border-t-2 border-blue-500/30">
-            <div class="relative inline-block">
-                <div class="absolute inset-0 bg-blue-500 blur-3xl opacity-20 animate-pulse"></div>
-                <div class="relative w-28 h-28 mx-auto mb-4 bg-slate-900 rounded-3xl p-4 border border-white/10">
-                    <img src="https://ui-avatars.com/api/?name=B+B&background=0ea5e9&color=fff&size=128" alt="Logo" class="w-full h-full object-contain logo-glow rounded-xl">
+    <!-- Akses Portal -->
+    <div id="access-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-black">
+        <div class="max-w-md w-full px-8 text-center space-y-10 animate-fade">
+            <div class="space-y-4">
+                <div class="w-24 h-24 bg-white/5 mx-auto rounded-3xl p-4 glow-border flex items-center justify-center">
+                    <span class="text-3xl font-header font-black italic text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-pink-500">BB</span>
                 </div>
+                <h1 class="text-4xl font-header font-black tracking-tighter italic text-white uppercase">Banyubramanta</h1>
+                <p class="text-[10px] tracking-[0.4em] text-zinc-500 font-bold uppercase">Authorized Access Only</p>
             </div>
-            
-            <div>
-                <h2 class="text-4xl font-black tracking-tighter uppercase font-tech italic">PORTAL AKSES</h2>
-                <p class="text-blue-400 text-[11px] font-bold uppercase tracking-[0.4em] mt-2">BANYUBRAMANTA CREATIVE</p>
-            </div>
-            
-            <div class="space-y-6 text-left">
-                <div class="space-y-2">
-                    <div class="relative">
-                        <input type="password" id="access-input" placeholder="PASSCODE" class="w-full bg-slate-900/80 border border-slate-800 rounded-2xl px-6 py-5 focus:outline-none focus:border-blue-500 text-center font-black tracking-[0.5em] text-white transition-all text-lg">
-                    </div>
-                    <p id="error-msg" class="text-[10px] text-red-500 font-bold text-center uppercase tracking-wider hidden italic">Akses ditolak. Cek kembali password bengkel!</p>
+
+            <div class="space-y-6">
+                <input type="password" id="pass-field" placeholder="PASSCODE BENGKEL" 
+                    class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl py-5 px-6 text-center text-xl tracking-[0.5em] focus:border-purple-500 focus:outline-none transition-all">
+                
+                <div class="space-y-3">
+                    <button onclick="handleAuth()" class="w-full btn-access text-white font-black py-5 rounded-2xl text-xs uppercase tracking-widest">
+                        Buka Storyboard
+                    </button>
+                    <p class="text-[10px] text-zinc-600 font-medium italic">Pintu tertutup bagi publik, terkecuali Danu.</p>
                 </div>
-                <button id="unlock-btn" class="w-full bg-white text-black font-black py-5 rounded-2xl transition-all hover:bg-blue-500 hover:text-white uppercase tracking-widest text-xs shadow-2xl active:scale-95">
-                    AUTHENTICATE
-                </button>
+                <div id="err-msg" class="text-red-500 text-[10px] font-bold hidden">PASSCODE SALAH. COBA LAGI.</div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div id="main-app" class="hidden min-h-screen">
-        <nav class="border-b border-white/5 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-xl">
-            <div class="max-w-[1600px] mx-auto px-6 h-20 flex justify-between items-center">
-                <div class="flex items-center gap-5">
-                    <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-slate-900 border border-white/10 overflow-hidden shadow-inner">
-                        <img src="https://ui-avatars.com/api/?name=B+B&background=0ea5e9&color=fff&size=64" alt="Logo" class="w-10 h-10 object-contain">
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-black gradient-text tracking-tighter uppercase italic leading-none">BANYUBRAMANTA</h1>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase tracking-[0.3em] mt-1">CREATIVE AND BRANDING MINE</p>
-                    </div>
+    <!-- Dashboard Utama -->
+    <div id="main-content" class="hidden min-h-screen">
+        <header class="sticky top-0 z-50 glass border-b border-white/5 rounded-none">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center font-black italic text-pink-500">B</div>
+                    <h2 class="text-xl font-header font-black italic tracking-tighter text-white">BANYUBRAMANTA</h2>
                 </div>
-                
-                <div class="hidden md:flex items-center gap-8 text-[11px] font-black uppercase tracking-widest">
-                    <div class="flex flex-col items-end">
-                        <span class="text-slate-500">PROJECT STATUS</span>
-                        <span class="text-blue-400">IN PRODUCTION (75%)</span>
-                    </div>
-                    <div class="h-8 w-px bg-white/10"></div>
-                    <div class="flex items-center gap-3">
-                        <div class="text-right">
-                            <p class="text-white leading-none">DANU</p>
-                            <p class="text-blue-500 text-[8px]">EDITOR-IN-CHIEF</p>
-                        </div>
-                        <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                            <i class="fas fa-bolt text-blue-500"></i>
-                        </div>
-                    </div>
+                <div class="flex gap-2">
+                    <button onclick="filterContent('ALL')" id="tab-all" class="tab-btn active px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">Semua</button>
+                    <button onclick="filterContent('INTRO')" id="tab-intro" class="tab-btn bg-white/5 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">Intro</button>
+                    <button onclick="filterContent('ISI')" id="tab-isi" class="tab-btn bg-white/5 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">Isi</button>
+                    <button onclick="filterContent('OUTRO')" id="tab-outro" class="tab-btn bg-white/5 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider">Outro</button>
                 </div>
             </div>
-        </nav>
+        </header>
 
-        <main class="max-w-[1600px] mx-auto p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- Sidebar -->
-            <aside class="lg:col-span-3 space-y-6">
-                <!-- Category Filter -->
-                <div class="glass-panel rounded-3xl p-4 flex gap-2">
-                    <button onclick="filterScenes('ALL')" class="category-pill active flex-1 py-2 rounded-xl text-[9px] font-black uppercase" id="filter-all">ALL</button>
-                    <button onclick="filterScenes('INTRO')" class="category-pill flex-1 py-2 rounded-xl text-[9px] font-black uppercase" id="filter-intro">INTRO</button>
-                    <button onclick="filterScenes('CONTENT')" class="category-pill flex-1 py-2 rounded-xl text-[9px] font-black uppercase" id="filter-content">CORE</button>
-                    <button onclick="filterScenes('OUTRO')" class="category-pill flex-1 py-2 rounded-xl text-[9px] font-black uppercase" id="filter-outro">OUTRO</button>
-                </div>
-
-                <!-- Scene List -->
-                <div class="glass-panel rounded-3xl p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] italic">TIMELINE CERITA</h3>
-                        <span id="scene-count" class="text-[10px] bg-blue-500/10 border border-blue-500/20 px-2 py-1 rounded text-blue-400 font-bold italic">0 SCENES</span>
-                    </div>
-                    <div id="scene-list" class="space-y-3 max-h-[60vh] overflow-y-auto pr-3 custom-scrollbar">
-                        <!-- Dynamic Content -->
-                    </div>
-                </div>
-
-                <!-- Team Status Card -->
-                <div class="glass-panel rounded-3xl p-6 border-l-4 border-blue-500">
-                    <h4 class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">PRODUCTION STATS</h4>
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-[10px] font-bold">
-                            <span class="text-slate-500">TOTAL DURATION</span>
-                            <span>~02:45 MIN</span>
-                        </div>
-                        <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
-                            <div class="bg-blue-500 h-full w-[75%] shadow-[0_0_10px_rgba(14,165,233,0.5)]"></div>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Detail View -->
-            <section id="detail-view" class="lg:col-span-9">
-                <!-- Dynamic Detail Content -->
-            </section>
+        <main class="max-w-7xl mx-auto px-6 py-12">
+            <div id="storyboard-container" class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Dynamic Content -->
+            </div>
         </main>
+
+        <footer class="py-20 text-center border-t border-white/5 opacity-30">
+            <p class="text-[10px] font-bold tracking-[0.5em] uppercase">Banyubramanta © 2024 - Directed by Danu</p>
+        </footer>
     </div>
 
     <script>
-        const SECRET_CODE = "050304#";
-        const scenes = [
-            { id: 1, title: "THE AWAKENING", storyline: "Awal video dimulai dengan hook visual yang kuat, memperlihatkan interaksi pertama antara manusia dan teknologi robot air.", visual: "Extreme Close Up: Mata seseorang melihat ke robot air yang bergerak lincah di dalam tanki.", audio: "SFX: Suara air gelembung, suara mekanis robot halus.", desc: "Hook utama untuk menarik perhatian dengan teknologi robot air.", loc: "LAB ROBOTIKA", cat: "INTRO", status: "Ready", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=80&w=1000" },
-            { id: 2, title: "HQ EXTERIOR", storyline: "Pengenalan basis operasional tim, menunjukkan skala gedung Robotics Research Center sebagai markas besar.", visual: "Wide Drone Shot: Footage kemegahan Gedung Robotika ITS dengan sudut rendah.", audio: "VO: (Music starts) Tempo lambat namun megah.", desc: "Menunjukkan skala prestise dan markas riset.", loc: "EXT. GEDUNG", cat: "INTRO", status: "Ready", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1000" },
-            { id: 3, title: "IDENTITY FOCUS", storyline: "Fokus pada identitas tim melalui atribut fisik (jaket) untuk membangun rasa kepemilikan dan kebanggaan.", visual: "Medium Shot: Kamera fokus tajam pada bordiran tulisan BANYUBRAMANTA di punggung jaket tim.", audio: "VO: \"Sebuah inovasi tidak lahir dari kesunyian...\"", desc: "Penonjolan branding dan identitas personil.", loc: "KORIDOR LAB", cat: "INTRO", status: "Ready", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0?auto=format&fit=crop&q=80&w=1000" },
-            { id: 4, title: "LOGO TRANSITION", storyline: "Transisi artistik dari atribut fisik menuju logo digital, menjembatani fase introduksi ke konten profil utama.", visual: "Motion Graphics: Gambar jaket perlahan morphing menjadi animasi logo dinamis Banyu Bramanta.", audio: "SFX: Digital swoosh. VO: \"Ia lahir dari keberanian.\"", desc: "Jembatan transisi menuju konten utama.", loc: "STUDIO", cat: "INTRO", status: "Ready", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1000" },
-            { id: 5, title: "GM REVEAL", storyline: "Perkenalan General Manager (Mas Farel) sebagai representasi wajah kepemimpinan tim di depan markas.", visual: "Medium Shot: Mas Farel (GM) melipat tangan di dada di depan tulisan Robotics Research Center.", audio: "VO: \"Kami adalah Banyubramanta.\"", desc: "Perkenalan kepemimpinan secara formal.", loc: "FRONT OFFICE", cat: "CONTENT", status: "Progress", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000" },
-            { id: 6, title: "SCALE & ACCESS", storyline: "Membangun kesan kedalaman dan aksesibilitas lab, membawa penonton masuk ke dalam jantung riset.", visual: "Drone In: Gedung dipretel dari kejauhan diikuti footage POV jalan masuk lab.", audio: "SFX: Suara langkah kaki cepat & pintu otomatis terbuka.", desc: "Memberikan kesan skala dan eksklusivitas lab.", loc: "ACCESS PATH", cat: "CONTENT", status: "Review", img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1000" },
-            { id: 7, title: "PRECISION WORK", storyline: "Fase teknis dimulai. Menampilkan proses manufaktur komponen hardware secara mendetail.", visual: "Close Up: Mekanik sedang melakukan proses membubut/pengerjaan komponen di dalam lab.", audio: "SFX: Suara gesekan logam yang presisi.", desc: "Menunjukkan sisi teknis pengerjaan hardware.", loc: "WORKSHOP", cat: "CONTENT", status: "Ready", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000" },
-            { id: 11, title: "VISION & MISSION", storyline: "Penyampaian visi misi secara langsung oleh GM untuk memberikan sentuhan personal dan otoritas.", visual: "Medium Shot: Mas Farel di area terbuka iconic gedung robotika, gaya formal tapi santai.", audio: "VO Mas Farel: Menjelaskan visi misi Banyubramanta secara lugas.", desc: "Statement inti dari perusahaan/tim.", loc: "OUTDOOR HQ", cat: "CONTENT", status: "Review", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=1000" },
-            { id: 15, title: "THE ACHIEVEMENT", storyline: "Puncak prestasi. Meletakkan piala baru ke lemari piala sebagai simbol keberlanjutan juara.", visual: "Medium Tracking: Satu orang berjalan menuju lemari piala dan meletakkan satu piala baru.", audio: "SFX: Suara piala diletakkan (ding). Musik mencapai puncak.", desc: "Simbol keberhasilan dan apresiasi.", loc: "ACHIEVEMENT ROOM", cat: "OUTRO", status: "Ready", img: "https://images.unsplash.com/photo-1578269174936-2709b5a5c0d5?auto=format&fit=crop&q=80&w=1000" },
-            { id: 17, title: "FINAL DEPARTURE", storyline: "Video ditutup dengan shot udara Bundaran ITS dan logo akhir, meninggalkan kesan megah.", visual: "Drone Out: Kamera menjauh dari Bundaran ITS (Iconic), zoom logo BANYUBRAMANTA.", audio: "SFX: Musik berakhir megah (Power Out).", desc: "Penutup yang megah dan berkesan.", loc: "EXT. ITS", cat: "OUTRO", status: "Ready", img: "https://images.unsplash.com/photo-1439405326854-014607f694d7?auto=format&fit=crop&q=80&w=1000" }
+        const ACCESS_KEY = "050304#";
+        
+        const storyboardData = [
+            { id: 1, tag: "INTRO", title: "Robot Awakening", loc: "LAB ROBOTIKA - WATER TANK", visual: "Cinematic Close Up: Mata robot air (AUV) perlahan terbuka, pendar cahaya biru di balik casing transparan.", audio: "SFX: Ambient underwater bubbles & digital hum.", status: "READY", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=1000" },
+            { id: 2, tag: "INTRO", title: "Gedung Robotika", loc: "EXT. ROBOTICS RESEARCH CENTER", visual: "Wide drone shot menyisir gedung dari sudut rendah, memperlihatkan kemegahan markas.", audio: "Music: Slow deep orchestral beats start.", status: "READY", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000" },
+            { id: 3, tag: "INTRO", title: "Identity Mark", loc: "KORIDOR LAB", visual: "Focus shot pada bordir jaket tim. Kamera tracking mengikuti orang berjalan dengan tulisan 'BANYUBRAMANTA'.", audio: "VO: 'Inovasi bukan sekadar kata, ia adalah identitas.'", status: "READY", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=1000" },
+            { id: 4, tag: "INTRO", title: "Digital Transition", loc: "MOTION GRAPHICS AREA", visual: "Morphing animation: Gambar jaket perlahan berubah menjadi logo animasi Banyu Bramanta yang dinamis.", audio: "SFX: Digital glitch/swoosh transition.", status: "ON-PROGRESS", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000" },
+            { id: 5, tag: "ISI", title: "GM Introduction", loc: "HQ FRONT DESK", visual: "Medium shot Mas Farel (GM) melipat tangan di dada dengan latar tulisan Robotics Research Center.", audio: "Music: Tempo naik (Upbeat corporate).", status: "READY", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000" },
+            { id: 6, tag: "ISI", title: "Access Path", loc: "ACCESS CORRIDOR", visual: "POV Shot: Kamera masuk ke lab melalui pintu otomatis, menunjukkan kesan lab yang eksklusif.", audio: "SFX: Pintu otomatis terbuka (shhh-click).", status: "READY", img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1000" },
+            { id: 7, tag: "ISI", title: "The Workshop", loc: "WORKSHOP MEKANIK", visual: "Extreme Close Up: Mekanik membubut komponen logam. Percikan api kecil & presisi tinggi.", audio: "SFX: High-pitched metal friction sound.", status: "READY", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000" },
+            { id: 8, tag: "ISI", title: "3D Printing Progress", loc: "PROTOTYPING LAB", visual: "Timelapse: 3D printer sedang mencetak frame robot. Cahaya ungu menghiasi area print.", audio: "SFX: Mechanical rhythmic robotic sound.", status: "READY", img: "https://images.unsplash.com/photo-1631002224824-5f73d8b527c0?q=80&w=1000" },
+            { id: 9, tag: "ISI", title: "Source Code", loc: "SOFTWARE STATION", visual: "Screen Record: Barisan kode program (C++/Python) berjalan di layar laptop dengan monitor ganda.", audio: "SFX: Fast typing sounds.", status: "READY", img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1000" },
+            { id: 10, tag: "ISI", title: "Precision Soldering", loc: "ELECTRONICS DESK", visual: "Close up tangan menyolder komponen kecil ke PCB. Asap tipis terlihat di bawah lampu lab.", audio: "SFX: Sizzling sound.", status: "READY", img: "https://images.unsplash.com/photo-1555617766-c94804975da3?q=80&w=1000" },
+            { id: 11, tag: "ISI", title: "Visi & Misi Mas Farel", loc: "ICONIC OUTDOOR AREA", visual: "Medium shot Mas Farel berbicara ke kamera dengan gaya formal namun santai.", audio: "VO: 'Visi kami adalah membawa teknologi robotika air Indonesia ke tingkat dunia.'", status: "READY", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1000" },
+            { id: 12, tag: "ISI", title: "Competition Journey", loc: "VARIOUS LOCATIONS", visual: "Montage: Dokumentasi lomba-lomba, tim berjalan membawa robot, antusiasme di arena.", audio: "Music: High energy transition.", status: "READY", img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1000" },
+            { id: 13, tag: "ISI", title: "Trial Run", loc: "TRIAL POOL", visual: "Robot trial berenang di kolam, manuver tajam dan penyelaman.", audio: "SFX: Water splashing, motor hum.", status: "READY", img: "https://images.unsplash.com/photo-1583225214464-9296029427aa?q=80&w=1000" },
+            { id: 14, tag: "ISI", title: "Team Spirit", loc: "DISCUSSION AREA", visual: "Candid: Diskusi tim, orang berpendapat, senyum, kebersamaan saat riset.", audio: "VO: (Background chatter) Music gets warmer.", status: "READY", img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000" },
+            { id: 15, tag: "ISI", title: "Legacy & History", loc: "STUDIO", visual: "Overlay: History BANYUBRAMANTA dari tahun ke tahun ditampilkan lewat teks tipografi.", audio: "Music: Steady ticking or building rhythm.", status: "READY", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000" },
+            { id: 16, tag: "OUTRO", title: "The Achievement", loc: "TROPHY CABINET", visual: "Satu orang berjalan dengan bangga meletakkan piala baru ke rak yang sudah penuh prestasi.", audio: "SFX: Metallic 'ding'. Music: Grand crescendo.", status: "READY", img: "https://images.unsplash.com/photo-1578269174936-2709b5a5c0d5?q=80&w=1000" },
+            { id: 17, tag: "OUTRO", title: "Banyubramanta Parade", loc: "VARIOUS", visual: "Footage tim merayakan kemenangan, momen-momen berwarna di berbagai tempat.", audio: "Music: Celebration vibe.", status: "READY", img: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1000" },
+            { id: 18, tag: "OUTRO", title: "Final Departure", loc: "BUNDARAN ITS", visual: "Drone out dari Bundaran ITS. Zoom out ke arah langit, lalu logo BANYUBRAMANTA muncul di tengah.", audio: "SFX: Wind whoosh, music power-out.", status: "READY", img: "https://images.unsplash.com/photo-1439405326854-014607f694d7?q=80&w=1000" }
         ];
 
-        let currentFilter = 'ALL';
-        let comments = JSON.parse(localStorage.getItem('banyu_comments') || '{}');
+        // State Management
+        let comments = JSON.parse(localStorage.getItem('bb_comments')) || {};
 
-        // Access Logic
-        const overlay = document.getElementById('access-overlay');
-        const mainApp = document.getElementById('main-app');
-        const input = document.getElementById('access-input');
-        const btn = document.getElementById('unlock-btn');
-        const errorMsg = document.getElementById('error-msg');
-
-        function unlock() {
-            if (input.value === SECRET_CODE) {
-                overlay.style.display = 'none';
-                mainApp.classList.remove('hidden');
-                renderList();
+        function handleAuth() {
+            const val = document.getElementById('pass-field').value;
+            const err = document.getElementById('err-msg');
+            if(val === ACCESS_KEY) {
+                // Tactile feedback
+                if(window.navigator.vibrate) window.navigator.vibrate(50);
+                
+                document.getElementById('access-overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('access-overlay').style.display = 'none';
+                    document.getElementById('main-content').classList.remove('hidden');
+                    renderCards('ALL');
+                }, 500);
             } else {
-                document.getElementById('lock-card').classList.add('shake');
-                errorMsg.classList.remove('hidden');
-                setTimeout(() => document.getElementById('lock-card').classList.remove('shake'), 500);
-                input.value = '';
+                err.classList.remove('hidden');
+                document.getElementById('pass-field').value = "";
+                if(window.navigator.vibrate) window.navigator.vibrate([50, 100, 50]);
             }
         }
 
-        btn.onclick = unlock;
-        input.onkeydown = (e) => { if(e.key === 'Enter') unlock(); };
-
-        // Render Functions
-        function filterScenes(cat) {
-            currentFilter = cat;
-            document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
-            document.getElementById(`filter-${cat.toLowerCase()}`).classList.add('active');
-            renderList();
+        function filterContent(category) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active', 'bg-white/5'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.add('bg-white/5'));
+            const activeBtn = document.getElementById('tab-' + category.toLowerCase());
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('bg-white/5');
+            renderCards(category);
         }
 
-        function renderList() {
-            const filtered = currentFilter === 'ALL' ? scenes : scenes.filter(s => s.cat === currentFilter);
-            const list = document.getElementById('scene-list');
-            document.getElementById('scene-count').innerText = `${filtered.length} SCENES`;
-            
-            list.innerHTML = filtered.map(s => `
-                <div onclick="showDetail(${s.id})" id="card-${s.id}" class="scene-card p-4 rounded-2xl cursor-pointer glass-panel flex items-center gap-4 text-left border border-white/5">
-                    <div class="w-10 h-10 rounded-xl bg-slate-900 border border-white/5 flex items-center justify-center text-xs font-black text-blue-400">
-                        ${s.id}
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h4 class="text-[11px] font-bold uppercase truncate tracking-tight text-white">${s.title}</h4>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-[7px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 font-black uppercase">${s.cat}</span>
-                            <span class="w-1 h-1 rounded-full bg-slate-700"></span>
-                            <span class="text-[7px] font-bold text-slate-500 uppercase">${s.status}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            
-            if (filtered.length > 0) showDetail(filtered[0].id);
+        // Tactile Haptic Function
+        function hapticTrigger() {
+            if(window.navigator.vibrate) window.navigator.vibrate(10);
         }
 
-        window.showDetail = function(id) {
-            const s = scenes.find(x => x.id === id);
-            const view = document.getElementById('detail-view');
-            document.querySelectorAll('.scene-card').forEach(c => c.classList.remove('active-scene'));
-            const activeCard = document.getElementById(`card-${id}`);
-            if(activeCard) activeCard.classList.add('active-scene');
+        // Comment Functions
+        function addComment(sceneId) {
+            const input = document.getElementById(`input-${sceneId}`);
+            const text = input.value.trim();
+            if(!text) return;
 
-            view.innerHTML = `
-                <div class="space-y-8 animate-slide-up">
-                    <!-- Main Preview -->
-                    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
-                        <div class="xl:col-span-8">
-                            <div class="img-container aspect-video group">
-                                <img src="${s.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90" alt="${s.title}">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-                                <div class="img-overlay-info">
-                                    <div class="flex items-center gap-3 mb-4">
-                                        <span class="text-[9px] bg-blue-600 px-3 py-1 rounded-md font-black uppercase tracking-widest shadow-lg">LIVE PREVIEW</span>
-                                        <span class="text-[9px] bg-slate-800 border border-white/10 px-3 py-1 rounded-md font-black uppercase tracking-widest">${s.loc}</span>
-                                    </div>
-                                    <h3 class="text-5xl font-black uppercase italic tracking-tighter text-white font-tech leading-none mb-2">${s.title}</h3>
-                                    <p class="text-blue-400 text-xs font-black uppercase tracking-[0.2em]">Scene Sequence 00${s.id}</p>
-                                </div>
-                            </div>
+            if(!comments[sceneId]) comments[sceneId] = [];
+            
+            comments[sceneId].push({
+                id: Date.now(),
+                text: text,
+                completed: false
+            });
+
+            input.value = "";
+            saveAndRender();
+            hapticTrigger();
+        }
+
+        function toggleComment(sceneId, commentId) {
+            comments[sceneId] = comments[sceneId].map(c => 
+                c.id === commentId ? {...c, completed: !c.completed} : c
+            );
+            saveAndRender();
+            hapticTrigger();
+        }
+
+        function deleteComment(sceneId, commentId) {
+            comments[sceneId] = comments[sceneId].filter(c => c.id !== commentId);
+            saveAndRender();
+            if(window.navigator.vibrate) window.navigator.vibrate(30);
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('bb_comments', JSON.stringify(comments));
+            const currentFilter = document.querySelector('.tab-btn.active').id.replace('tab-', '').toUpperCase();
+            renderCards(currentFilter);
+        }
+
+        function renderCards(filter) {
+            const container = document.getElementById('storyboard-container');
+            const filtered = filter === 'ALL' ? storyboardData : storyboardData.filter(d => d.tag === filter);
+            
+            container.innerHTML = filtered.map(s => {
+                const sceneComments = comments[s.id] || [];
+                return `
+                <div class="scene-card glass p-6 space-y-6 border border-white/5 animate-fade" onclick="hapticTrigger()">
+                    <!-- Image Header -->
+                    <div class="relative rounded-2xl overflow-hidden aspect-video bg-black shadow-2xl">
+                        <img src="${s.img}" class="w-full h-full object-cover opacity-80 transition-transform duration-700" alt="${s.title}">
+                        <div class="absolute top-4 left-4 bg-black/60 backdrop-blur px-3 py-1 rounded-lg border border-white/10">
+                            <span class="text-[9px] font-black mono text-pink-400 uppercase tracking-tighter font-bold">SCENE #${s.id}</span>
                         </div>
-                        
-                        <div class="xl:col-span-4 flex flex-col gap-6">
-                            <div class="glass-panel rounded-[32px] p-8 flex-1 border-r-4 border-blue-500/50">
-                                <h4 class="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-6 flex items-center gap-2">
-                                    <i class="fas fa-bullseye"></i> CORE STORYLINE
-                                </h4>
-                                <div class="relative">
-                                    <span class="text-4xl absolute -top-4 -left-2 opacity-10 font-serif">"</span>
-                                    <p class="text-base font-bold text-slate-100 leading-relaxed italic uppercase relative z-10">
-                                        ${s.storyline}
-                                    </p>
-                                </div>
-                                <div class="mt-8 pt-6 border-t border-white/5 space-y-4">
-                                    <div class="flex justify-between items-center text-[10px] font-bold">
-                                        <span class="text-slate-500">PRODUCTION STATUS</span>
-                                        <span class="text-green-400 px-2 py-0.5 rounded bg-green-400/10 uppercase border border-green-400/20">${s.status}</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="absolute bottom-4 right-4">
+                            <span class="text-[8px] font-black px-2 py-1 bg-blue-500 rounded text-white uppercase font-bold">${s.status}</span>
                         </div>
                     </div>
 
-                    <!-- Details Grid -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-20">
-                        <div class="lg:col-span-2 space-y-6">
-                            <div class="glass-panel rounded-[40px] p-10 space-y-10">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                                    <div class="space-y-5">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 rounded-lg bg-slate-900 border border-white/5 flex items-center justify-center">
-                                                <i class="fas fa-video text-slate-500 text-[10px]"></i>
-                                            </div>
-                                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">VISUAL INSTRUCTION</h4>
-                                        </div>
-                                        <p class="text-sm font-semibold uppercase leading-relaxed text-slate-300 bg-slate-900/40 p-5 rounded-2xl border border-white/5">
-                                            ${s.visual}
-                                        </p>
-                                    </div>
-                                    <div class="space-y-5">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                                <i class="fas fa-microphone text-blue-500 text-[10px]"></i>
-                                            </div>
-                                            <h4 class="text-[10px] font-black text-blue-400 uppercase tracking-widest">AUDIO DESIGN</h4>
-                                        </div>
-                                        <p class="text-sm font-bold uppercase leading-relaxed text-blue-100 bg-blue-500/5 p-5 rounded-2xl border border-blue-500/10 italic">
-                                            "${s.audio}"
-                                        </p>
-                                    </div>
+                    <!-- Info Area -->
+                    <div class="space-y-5" onclick="event.stopPropagation()">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-header font-bold italic tracking-tight uppercase text-white leading-tight">${s.title}</h3>
+                            <span class="text-[9px] font-black px-2 py-1 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30 uppercase tracking-tighter font-bold">${s.tag}</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3">
+                            <div class="highlight-box">
+                                <label class="block text-[8px] text-zinc-500 font-black uppercase mb-1">Lokasi Highlight</label>
+                                <p class="text-[11px] font-bold text-blue-300 uppercase italic">${s.loc}</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="highlight-box purple-highlight">
+                                    <label class="block text-[8px] text-zinc-500 font-black uppercase mb-1">Visual Storyline</label>
+                                    <p class="text-[10px] text-zinc-300 leading-relaxed">${s.visual}</p>
                                 </div>
-                                
-                                <div class="pt-6 border-t border-white/5">
-                                    <h4 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4 italic">DIRECTOR'S NOTE</h4>
-                                    <div class="bg-slate-950/50 p-6 rounded-2xl border border-white/5 text-xs font-medium text-slate-400 leading-loose uppercase tracking-wide">
-                                        ${s.desc}
-                                    </div>
+                                <div class="highlight-box pink-highlight">
+                                    <label class="block text-[8px] text-zinc-500 font-black uppercase mb-1">Audio / VO</label>
+                                    <p class="text-[10px] text-pink-100 italic font-medium leading-relaxed">${s.audio}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Feedback Panel -->
-                        <div class="glass-panel rounded-[40px] p-8 flex flex-col h-full border-t-2 border-blue-500/40 shadow-blue-900/10">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-300 italic">FEEDBACK PANEL</h3>
-                                <div class="flex gap-1">
-                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 opacity-50"></div>
-                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 opacity-20"></div>
-                                </div>
-                            </div>
+                        <!-- Feedback Section -->
+                        <div class="pt-4 border-t border-white/5 space-y-4">
+                            <label class="text-[8px] font-black text-zinc-600 uppercase tracking-widest block">Manajemen Revisi Danu</label>
                             
-                            <div id="comment-list-${s.id}" class="flex-1 space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar mb-6">
-                                <!-- Comments here -->
+                            <!-- Comment List -->
+                            <div class="space-y-2 max-h-40 overflow-y-auto pr-2 custom-scrollbar">
+                                ${sceneComments.length === 0 ? '<p class="text-[10px] text-zinc-700 italic">Belum ada catatan.</p>' : ''}
+                                ${sceneComments.map(c => `
+                                    <div class="comment-item flex items-center justify-between gap-3 bg-white/5 p-3 rounded-xl border border-white/5 ${c.completed ? 'opacity-40' : ''}">
+                                        <div class="flex items-center gap-3">
+                                            <button onclick="toggleComment(${s.id}, ${c.id})" class="w-5 h-5 rounded-md border-2 ${c.completed ? 'bg-green-500 border-green-500' : 'border-zinc-700'} flex items-center justify-center transition-all">
+                                                ${c.completed ? '<i class="fas fa-check text-[10px] text-white"></i>' : ''}
+                                            </button>
+                                            <span class="text-[11px] font-medium ${c.completed ? 'line-through text-zinc-500' : 'text-zinc-200'}">${c.text}</span>
+                                        </div>
+                                        <button onclick="deleteComment(${s.id}, ${c.id})" class="text-zinc-600 hover:text-red-500 transition-colors">
+                                            <i class="fas fa-trash-alt text-[10px]"></i>
+                                        </button>
+                                    </div>
+                                `).join('')}
                             </div>
 
-                            <div class="space-y-3">
-                                <textarea id="comment-input-${s.id}" placeholder="Tulis catatan revisi..." 
-                                    class="w-full bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-[11px] font-bold uppercase text-white focus:outline-none focus:border-blue-500/50 transition-all resize-none shadow-inner" 
-                                    rows="3"></textarea>
-                                <button onclick="postComment(${s.id})" 
-                                    class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-2xl text-[10px] uppercase tracking-widest transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]">
-                                    POST REVISION
+                            <!-- Input Area -->
+                            <div class="flex gap-2">
+                                <input type="text" id="input-${s.id}" placeholder="Tambah instruksi baru..." 
+                                    class="flex-1 custom-input rounded-xl px-4 py-2 text-[10px] font-medium outline-none"
+                                    onkeypress="if(event.key === 'Enter') addComment(${s.id})">
+                                <button onclick="addComment(${s.id})" class="bg-white/10 hover:bg-white/20 p-2 px-4 rounded-xl text-[10px] font-black transition-all">
+                                    Simpan
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
-            renderComments(id);
-        };
-
-        window.postComment = function(sceneId) {
-            const input = document.getElementById(`comment-input-${sceneId}`);
-            const val = input.value.trim();
-            if(!val) return;
-            
-            if(!comments[sceneId]) comments[sceneId] = [];
-            comments[sceneId].push({ 
-                user: "DANU", 
-                text: val, 
-                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) 
-            });
-            
-            localStorage.setItem('banyu_comments', JSON.stringify(comments));
-            input.value = '';
-            renderComments(sceneId);
-        };
-
-        function renderComments(sceneId) {
-            const cont = document.getElementById(`comment-list-${sceneId}`);
-            const list = comments[sceneId] || [];
-            if(!list.length) {
-                cont.innerHTML = `
-                    <div class="py-20 text-center opacity-20 flex flex-col items-center">
-                        <i class="fas fa-feather-alt text-4xl mb-3"></i>
-                        <p class="text-[9px] font-black uppercase tracking-widest">BELUM ADA CATATAN</p>
-                    </div>`;
-                return;
-            }
-            cont.innerHTML = list.map(c => `
-                <div class="bg-slate-900/60 p-5 rounded-2xl border border-white/5 space-y-2 animate-slide-up">
-                    <div class="flex justify-between items-center">
-                        <span class="text-[9px] font-black text-blue-500 uppercase tracking-widest">@${c.user}</span>
-                        <span class="text-[8px] text-slate-600 font-bold">${c.time}</span>
-                    </div>
-                    <p class="text-[11px] text-slate-300 font-bold uppercase leading-relaxed italic">${c.text}</p>
-                </div>
-            `).reverse().join('');
+            }).join('');
         }
+
+        // Global Event Listeners
+        document.getElementById('pass-field').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAuth(); });
     </script>
 </body>
 </html>
