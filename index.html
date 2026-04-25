@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BANYUBRAMANTA - Executive Storyboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -37,8 +37,8 @@
         .glass {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
         }
 
         .glow-border {
@@ -49,29 +49,28 @@
 
         .scene-card {
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
             user-select: none;
         }
 
-        .scene-card:active {
-            transform: scale(0.96) translateY(4px);
-            filter: brightness(0.8);
-        }
-
-        .scene-card:hover img {
-            transform: scale(1.1) rotate(1deg);
+        @media (hover: hover) {
+            .scene-card:hover {
+                transform: translateY(-5px);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
         }
 
         .highlight-box {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             border-left: 3px solid var(--p-blue);
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: 0.3s;
+            padding: 10px 14px;
+            border-radius: 12px;
         }
 
-        .highlight-box:hover {
-            background: rgba(255, 255, 255, 0.08);
+        .story-box {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.1));
+            border: 1px border rgba(255,255,255,0.1);
+            padding: 14px;
+            border-radius: 16px;
         }
 
         .pink-highlight { border-left-color: var(--p-pink); }
@@ -79,7 +78,7 @@
 
         .btn-access {
             background: linear-gradient(90deg, var(--p-purple), var(--p-pink));
-            transition: 0.3s;
+            box-shadow: 0 10px 20px -10px var(--p-purple);
         }
         
         .tab-btn.active {
@@ -87,125 +86,145 @@
             color: white;
         }
 
-        .custom-input {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-        }
-
-        .comment-item {
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-10px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade { animation: fadeIn 0.6s ease-out forwards; }
-
-        /* Scrollbar styling */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
     </style>
 </head>
 <body>
     <div class="cyber-bg"></div>
 
     <!-- Akses Portal -->
-    <div id="access-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-black">
-        <div class="max-w-md w-full px-8 text-center space-y-10 animate-fade">
+    <div id="access-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#030014]">
+        <div class="max-w-sm w-full px-8 text-center space-y-10 animate-fade">
             <div class="space-y-4">
-                <div class="w-24 h-24 bg-white/5 mx-auto rounded-3xl p-4 glow-border flex items-center justify-center">
-                    <span class="text-3xl font-header font-black italic text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-pink-500">BB</span>
+                <div class="w-20 h-20 bg-white/5 mx-auto rounded-3xl p-4 glow-border flex items-center justify-center">
+                    <span class="text-2xl font-header font-black italic text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-pink-500">BB</span>
                 </div>
-                <h1 class="text-4xl font-header font-black tracking-tighter italic text-white uppercase">Banyubramanta</h1>
+                <h1 class="text-3xl font-header font-black tracking-tighter italic text-white uppercase">Banyubramanta</h1>
                 <p class="text-[10px] tracking-[0.4em] text-zinc-500 font-bold uppercase">Authorized Access Only</p>
             </div>
 
             <div class="space-y-6">
-                <input type="password" id="pass-field" placeholder="PASSCODE BENGKEL" 
-                    class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl py-5 px-6 text-center text-xl tracking-[0.5em] focus:border-purple-500 focus:outline-none transition-all">
-                
-                <div class="space-y-3">
-                    <button onclick="handleAuth()" class="w-full btn-access text-white font-black py-5 rounded-2xl text-xs uppercase tracking-widest active:scale-95">
-                        Buka Storyboard
-                    </button>
-                    <p class="text-[10px] text-zinc-600 font-medium italic">Pintu tertutup bagi publik, terkecuali Danu.</p>
-                </div>
+                <input type="tel" id="pass-field" placeholder="PASSCODE" 
+                    class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl py-4 px-6 text-center text-2xl tracking-[0.5em] focus:border-purple-500 focus:outline-none transition-all placeholder:tracking-normal placeholder:text-sm placeholder:opacity-30">
+                <button onclick="handleAuth()" class="w-full btn-access text-white font-black py-4 rounded-2xl text-xs uppercase tracking-widest active:scale-95 transition-transform">
+                    Buka Storyboard
+                </button>
                 <div id="err-msg" class="text-red-500 text-[10px] font-bold hidden uppercase tracking-widest">Passcode Salah!</div>
             </div>
         </div>
     </div>
 
     <!-- Dashboard Utama -->
-    <div id="main-content" class="hidden min-h-screen">
-        <header class="sticky top-0 z-50 glass border-b border-white/5 rounded-none">
-            <div class="max-w-7xl mx-auto px-6 h-20 flex flex-col md:flex-row justify-between items-center gap-4 py-4 md:py-0">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center font-black italic text-pink-500">B</div>
-                    <h2 class="text-xl font-header font-black italic tracking-tighter text-white">BANYUBRAMANTA</h2>
+    <div id="main-content" class="hidden min-h-screen pb-10">
+        <header class="sticky top-0 z-50 glass border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 bg-white/10 rounded-lg flex items-center justify-center font-black italic text-pink-500">B</div>
+                    <h2 class="text-lg font-header font-black italic tracking-tighter text-white">BANYUBRAMANTA</h2>
                 </div>
-                <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0">
+                <nav class="flex gap-2 overflow-x-auto hide-scrollbar">
                     <button onclick="filterContent('ALL')" id="tab-all" class="tab-btn active px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider">Semua</button>
                     <button onclick="filterContent('INTRO')" id="tab-intro" class="tab-btn bg-white/5 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider text-zinc-400">Intro</button>
                     <button onclick="filterContent('ISI')" id="tab-isi" class="tab-btn bg-white/5 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider text-zinc-400">Isi</button>
                     <button onclick="filterContent('OUTRO')" id="tab-outro" class="tab-btn bg-white/5 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider text-zinc-400">Outro</button>
-                </div>
+                </nav>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto px-6 py-12">
-            <div id="storyboard-container" class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+            <div id="storyboard-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10">
                 <!-- Dynamic Content -->
             </div>
         </main>
-
-        <footer class="py-20 text-center border-t border-white/5 opacity-30">
-            <p class="text-[10px] font-bold tracking-[0.5em] uppercase">Banyubramanta © 2024 - Directed by Danu</p>
-        </footer>
     </div>
 
     <script>
         const ACCESS_KEY = "050304#";
         
         const storyboardData = [
-            { id: 1, tag: "INTRO", title: "Robot Awakening", loc: "LAB ROBOTIKA - WATER TANK", visual: "Cinematic Close Up: Mata robot air (AUV) perlahan terbuka, pendar cahaya biru di balik casing transparan.", audio: "SFX: Ambient underwater bubbles & digital hum.", status: "READY", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=1000" },
-            { id: 2, tag: "INTRO", title: "Gedung Robotika", loc: "EXT. ROBOTICS RESEARCH CENTER", visual: "Wide drone shot menyisir gedung dari sudut rendah, memperlihatkan kemegahan markas.", audio: "Music: Slow deep orchestral beats start.", status: "READY", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000" },
-            { id: 3, tag: "INTRO", title: "Identity Mark", loc: "KORIDOR LAB", visual: "Focus shot pada bordir jaket tim. Kamera tracking mengikuti orang berjalan dengan tulisan 'BANYUBRAMANTA'.", audio: "VO: 'Inovasi bukan sekadar kata, ia adalah identitas.'", status: "READY", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=1000" },
-            { id: 4, tag: "INTRO", title: "Digital Transition", loc: "MOTION GRAPHICS AREA", visual: "Morphing animation: Gambar jaket perlahan berubah menjadi logo animasi Banyu Bramanta yang dinamis.", audio: "SFX: Digital glitch/swoosh transition.", status: "ON-PROGRESS", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000" },
-            { id: 5, tag: "ISI", title: "GM Introduction", loc: "HQ FRONT DESK", visual: "Medium shot Mas Farel (GM) melipat tangan di dada dengan latar tulisan Robotics Research Center.", audio: "Music: Tempo naik (Upbeat corporate).", status: "READY", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000" },
-            { id: 6, tag: "ISI", title: "Access Path", loc: "ACCESS CORRIDOR", visual: "POV Shot: Kamera masuk ke lab melalui pintu otomatis, menunjukkan kesan lab yang eksklusif.", audio: "SFX: Pintu otomatis terbuka (shhh-click).", status: "READY", img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1000" },
-            { id: 7, tag: "ISI", title: "The Workshop", loc: "WORKSHOP MEKANIK", visual: "Extreme Close Up: Mekanik membubut komponen logam. Percikan api kecil & presisi tinggi.", audio: "SFX: High-pitched metal friction sound.", status: "READY", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000" },
-            { id: 8, tag: "ISI", title: "3D Printing Progress", loc: "PROTOTYPING LAB", visual: "Timelapse: 3D printer sedang mencetak frame robot. Cahaya ungu menghiasi area print.", audio: "SFX: Mechanical rhythmic robotic sound.", status: "READY", img: "https://images.unsplash.com/photo-1631002224824-5f73d8b527c0?q=80&w=1000" },
-            { id: 9, tag: "ISI", title: "Source Code", loc: "SOFTWARE STATION", visual: "Screen Record: Barisan kode program (C++/Python) berjalan di layar laptop dengan monitor ganda.", audio: "SFX: Fast typing sounds.", status: "READY", img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1000" },
-            { id: 10, tag: "ISI", title: "Precision Soldering", loc: "ELECTRONICS DESK", visual: "Close up tangan menyolder komponen kecil ke PCB. Asap tipis terlihat di bawah lampu lab.", audio: "SFX: Sizzling sound.", status: "READY", img: "https://images.unsplash.com/photo-1555617766-c94804975da3?q=80&w=1000" },
-            { id: 11, tag: "ISI", title: "Visi & Misi Mas Farel", loc: "ICONIC OUTDOOR AREA", visual: "Medium shot Mas Farel berbicara ke kamera dengan gaya formal namun santai.", audio: "VO: 'Visi kami adalah membawa teknologi robotika air Indonesia ke tingkat dunia.'", status: "READY", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1000" },
-            { id: 12, tag: "ISI", title: "Competition Journey", loc: "VARIOUS LOCATIONS", visual: "Montage: Dokumentasi lomba-lomba, tim berjalan membawa robot, antusiasme di arena.", audio: "Music: High energy transition.", status: "READY", img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1000" },
-            { id: 13, tag: "ISI", title: "Trial Run", loc: "TRIAL POOL", visual: "Robot trial berenang di kolam, manuver tajam dan penyelaman.", audio: "SFX: Water splashing, motor hum.", status: "READY", img: "https://images.unsplash.com/photo-1583225214464-9296029427aa?q=80&w=1000" },
-            { id: 14, tag: "ISI", title: "Team Spirit", loc: "DISCUSSION AREA", visual: "Candid: Diskusi tim, orang berpendapat, senyum, kebersamaan saat riset.", audio: "VO: (Background chatter) Music gets warmer.", status: "READY", img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000" },
-            { id: 15, tag: "ISI", title: "Legacy & History", loc: "STUDIO", visual: "Overlay: History BANYUBRAMANTA dari tahun ke tahun ditampilkan lewat teks tipografi.", audio: "Music: Steady ticking or building rhythm.", status: "READY", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000" },
-            { id: 16, tag: "OUTRO", title: "The Achievement", loc: "TROPHY CABINET", visual: "Satu orang berjalan dengan bangga meletakkan piala baru ke rak yang sudah penuh prestasi.", audio: "SFX: Metallic 'ding'. Music: Grand crescendo.", status: "READY", img: "https://images.unsplash.com/photo-1578269174936-2709b5a5c0d5?q=80&w=1000" },
-            { id: 17, tag: "OUTRO", title: "Banyubramanta Parade", loc: "VARIOUS", visual: "Footage tim merayakan kemenangan, momen-momen berwarna di berbagai tempat.", audio: "Music: Celebration vibe.", status: "READY", img: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1000" },
-            { id: 18, tag: "OUTRO", title: "Final Departure", loc: "BUNDARAN ITS", visual: "Drone out dari Bundaran ITS. Zoom out ke arah langit, lalu logo BANYUBRAMANTA muncul di tengah.", audio: "SFX: Wind whoosh, music power-out.", status: "READY", img: "https://images.unsplash.com/photo-1439405326854-014607f694d7?q=80&w=1000" }
+            { 
+                id: 1, tag: "INTRO", title: "The Awakening", loc: "WATER TANK", 
+                story: "Di kedalaman kegelapan, ada denyut yang mulai terasa. Ini bukan sekadar mesin yang menyala, tapi sebuah ambisi yang terbangun dari tidurnya. Cahaya biru itu adalah napas pertama dari sebuah inovasi.",
+                visual: "Cinematic Close Up: Mata robot air (AUV) perlahan terbuka, pendar cahaya biru di balik casing transparan.", 
+                audio: "SFX: Ambient underwater bubbles & digital hum.", 
+                status: "READY", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=1000" 
+            },
+            { 
+                id: 2, tag: "INTRO", title: "Citadel of Robotics", loc: "EXT. RESEARCH CENTER", 
+                story: "Gedung ini bukan hanya beton dan baja. Ini adalah kawah candradimuka bagi para pemimpi. Dari kejauhan, kemegahannya menceritakan ribuan jam kerja keras yang tersembunyi di dalamnya.",
+                visual: "Wide drone shot menyisir gedung dari sudut rendah, memperlihatkan kemegahan markas.", 
+                audio: "Music: Slow deep orchestral beats start.", 
+                status: "READY", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000" 
+            },
+            { 
+                id: 3, tag: "INTRO", title: "The Identity", loc: "KORIDOR LAB", 
+                story: "Setiap jahitan di jaket ini membawa beban tanggung jawab. Ketika nama 'BANYUBRAMANTA' terpampang, ada kebanggaan yang mengalir di setiap langkah para ksatria teknologi ini.",
+                visual: "Focus shot pada bordir jaket tim. Kamera tracking mengikuti orang berjalan.", 
+                audio: "VO: 'Inovasi bukan sekadar kata, ia adalah identitas.'", 
+                status: "READY", img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=1000" 
+            },
+            { 
+                id: 4, tag: "ISI", title: "The Mastermind", loc: "HQ FRONT DESK", 
+                story: "Mas Farel berdiri bukan sebagai atasan, tapi sebagai nahkoda. Di belakangnya, visi besar tim tertulis jelas. Tatapannya mencerminkan keyakinan akan masa depan robotika Indonesia.",
+                visual: "Medium shot Mas Farel (GM) melipat tangan di dada dengan latar tulisan Robotics Research Center.", 
+                audio: "Music: Tempo naik (Upbeat corporate).", 
+                status: "READY", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000" 
+            },
+            { 
+                id: 5, tag: "ISI", title: "Gateway to Future", loc: "ACCESS CORRIDOR", 
+                story: "Pintu ini adalah pembatas antara dunia biasa dan dunia kemungkinan. Begitu terbuka, suara mesin dan aroma solder menyambut, menandakan peradaban baru sedang dirakit.",
+                visual: "POV Shot: Kamera masuk ke lab melalui pintu otomatis.", 
+                audio: "SFX: Pintu otomatis terbuka (shhh-click).", 
+                status: "READY", img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1000" 
+            },
+            { 
+                id: 6, tag: "ISI", title: "Forge of Precision", loc: "WORKSHOP MEKANIK", 
+                story: "Percikan api ini adalah saksi bisu lahirnya kekuatan fisik robot. Setiap potongan logam dikerjakan dengan presisi mikron, memastikan ia mampu menembus tekanan air yang luar biasa.",
+                visual: "Extreme Close Up: Mekanik membubut komponen logam. Percikan api kecil.", 
+                audio: "SFX: High-pitched metal friction sound.", 
+                status: "READY", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000" 
+            },
+            { 
+                id: 7, tag: "ISI", title: "Digital DNA", loc: "SOFTWARE STATION", 
+                story: "Di layar ini, logika disusun menjadi nyawa. Barisan kode ini adalah bahasa yang membuat besi dan kabel bisa memahami perintah manusia, bergerak lincah di bawah samudera.",
+                visual: "Screen Record: Barisan kode program (C++/Python) berjalan di layar laptop.", 
+                audio: "SFX: Fast typing sounds.", 
+                status: "READY", img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1000" 
+            },
+            { 
+                id: 8, tag: "ISI", title: "The Visionary Speech", loc: "OUTDOOR AREA", 
+                story: "Di bawah langit terbuka, visi itu diucapkan. Bukan hanya mimpi kosong, tapi sebuah peta jalan untuk membawa nama bangsa ke podium tertinggi teknologi air dunia.",
+                visual: "Medium shot Mas Farel berbicara ke kamera dengan gaya formal namun santai.", 
+                audio: "VO: 'Visi kami adalah membawa teknologi robotika air Indonesia ke tingkat dunia.'", 
+                status: "READY", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1000" 
+            },
+            { 
+                id: 9, tag: "ISI", title: "Trial of Faith", loc: "TRIAL POOL", 
+                story: "Air tidak pernah berbohong. Di sini, semua teori diuji. Setiap manuver tajam dan penyelaman dalam adalah bukti keberhasilan ribuan percobaan yang gagal sebelumnya.",
+                visual: "Robot trial berenang di kolam, manuver tajam dan penyelaman.", 
+                audio: "SFX: Water splashing, motor hum.", 
+                status: "READY", img: "https://images.unsplash.com/photo-1583225214464-9296029427aa?q=80&w=1000" 
+            },
+            { 
+                id: 10, tag: "OUTRO", title: "The Legacy", loc: "TROPHY CABINET", 
+                story: "Satu piala lagi untuk sejarah. Namun bagi tim, piala ini bukan akhir, melainkan pengingat bahwa standar keunggulan BANYUBRAMANTA harus terus ditingkatkan.",
+                visual: "Satu orang meletakkan piala baru ke rak yang sudah penuh prestasi.", 
+                audio: "SFX: Metallic 'ding'. Music: Grand crescendo.", 
+                status: "READY", img: "https://images.unsplash.com/photo-1578269174936-2709b5a5c0d5?q=80&w=1000" 
+            }
         ];
 
-        let comments = JSON.parse(localStorage.getItem('bb_comments_v2')) || {};
+        let comments = JSON.parse(localStorage.getItem('bb_comments_v3')) || {};
 
         function handleAuth() {
-            const val = document.getElementById('pass-field').value;
-            const err = document.getElementById('err-msg');
-            if(val === ACCESS_KEY) {
-                if(window.navigator.vibrate) window.navigator.vibrate(50);
+            if(document.getElementById('pass-field').value === ACCESS_KEY) {
                 document.getElementById('access-overlay').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('access-overlay').style.display = 'none';
@@ -213,9 +232,7 @@
                     renderCards('ALL');
                 }, 500);
             } else {
-                err.classList.remove('hidden');
-                document.getElementById('pass-field').value = "";
-                if(window.navigator.vibrate) window.navigator.vibrate([50, 100, 50]);
+                document.getElementById('err-msg').classList.remove('hidden');
             }
         }
 
@@ -224,48 +241,8 @@
                 btn.classList.remove('active');
                 btn.classList.add('bg-white/5', 'text-zinc-400');
             });
-            const activeBtn = document.getElementById('tab-' + category.toLowerCase());
-            activeBtn.classList.add('active');
-            activeBtn.classList.remove('bg-white/5', 'text-zinc-400');
+            document.getElementById('tab-' + category.toLowerCase()).classList.add('active');
             renderCards(category);
-        }
-
-        function hapticTrigger() {
-            if(window.navigator.vibrate) window.navigator.vibrate(10);
-        }
-
-        function addComment(sceneId) {
-            const input = document.getElementById(`input-${sceneId}`);
-            const text = input.value.trim();
-            if(!text) return;
-
-            if(!comments[sceneId]) comments[sceneId] = [];
-            comments[sceneId].push({ id: Date.now(), text: text, completed: false });
-
-            input.value = "";
-            saveAndRender();
-            hapticTrigger();
-        }
-
-        function toggleComment(sceneId, commentId) {
-            comments[sceneId] = comments[sceneId].map(c => 
-                c.id === commentId ? {...c, completed: !c.completed} : c
-            );
-            saveAndRender();
-            hapticTrigger();
-        }
-
-        function deleteComment(sceneId, commentId) {
-            comments[sceneId] = comments[sceneId].filter(c => c.id !== commentId);
-            saveAndRender();
-            if(window.navigator.vibrate) window.navigator.vibrate(30);
-        }
-
-        function saveAndRender() {
-            localStorage.setItem('bb_comments_v2', JSON.stringify(comments));
-            const activeTab = document.querySelector('.tab-btn.active');
-            const currentFilter = activeTab ? activeTab.id.replace('tab-', '').toUpperCase() : 'ALL';
-            renderCards(currentFilter);
         }
 
         function renderCards(filter) {
@@ -275,73 +252,80 @@
             container.innerHTML = filtered.map(s => {
                 const sceneComments = comments[s.id] || [];
                 return `
-                <div class="scene-card glass p-6 space-y-6 border border-white/5 animate-fade" onclick="hapticTrigger()">
-                    <div class="relative rounded-2xl overflow-hidden aspect-video bg-black shadow-2xl">
-                        <img src="${s.img}" class="w-full h-full object-cover opacity-80 transition-transform duration-700" alt="${s.title}">
+                <div class="scene-card glass p-5 sm:p-6 space-y-6 border border-white/5 animate-fade rounded-[24px]">
+                    <div class="relative rounded-[20px] overflow-hidden aspect-video bg-[#0a0a0a]">
+                        <img src="${s.img}" class="w-full h-full object-cover opacity-60" alt="${s.title}">
                         <div class="absolute top-4 left-4 bg-black/60 backdrop-blur px-3 py-1 rounded-lg border border-white/10">
                             <span class="text-[9px] font-black text-pink-400 uppercase tracking-tighter">SCENE #${s.id}</span>
                         </div>
-                        <div class="absolute bottom-4 right-4">
-                            <span class="text-[8px] font-black px-2 py-1 bg-blue-500 rounded text-white uppercase">${s.status}</span>
-                        </div>
                     </div>
 
-                    <div class="space-y-5" onclick="event.stopPropagation()">
-                        <div class="flex justify-between items-start">
-                            <h3 class="text-xl font-header font-bold italic tracking-tight uppercase text-white leading-tight">${s.title}</h3>
-                            <span class="text-[9px] font-black px-2 py-1 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30 uppercase tracking-tighter">${s.tag}</span>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center gap-4">
+                            <h3 class="text-lg font-header font-bold italic tracking-tight uppercase text-white">${s.title}</h3>
+                            <span class="text-[9px] font-black px-2 py-1 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30 uppercase">${s.tag}</span>
                         </div>
 
-                        <div class="grid grid-cols-1 gap-3">
-                            <div class="highlight-box">
-                                <label class="block text-[8px] text-zinc-500 font-black uppercase mb-1">Lokasi Highlight</label>
-                                <p class="text-[11px] font-bold text-blue-300 uppercase italic">${s.loc}</p>
+                        <!-- Narrative Storyline Section -->
+                        <div class="story-box">
+                            <label class="block text-[8px] text-purple-400 font-black uppercase mb-1 tracking-widest">Narrative Storyline</label>
+                            <p class="text-[12px] text-white/90 leading-relaxed italic font-medium">"${s.story}"</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="highlight-box purple-highlight">
+                                <label class="block text-[8px] text-zinc-500 font-black uppercase mb-1">Visual Instruction</label>
+                                <p class="text-[10px] text-zinc-300">${s.visual}</p>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <div class="highlight-box purple-highlight">
-                                    <label class="block text-[8px] text-zinc-500 font-black uppercase mb-1">Visual Storyline</label>
-                                    <p class="text-[10px] text-zinc-300 leading-relaxed">${s.visual}</p>
-                                </div>
-                                <div class="highlight-box pink-highlight">
-                                    <label class="block text-[8px] text-zinc-500 font-black uppercase mb-1">Audio / VO</label>
-                                    <p class="text-[10px] text-pink-100 italic font-medium leading-relaxed">${s.audio}</p>
-                                </div>
+                            <div class="highlight-box pink-highlight">
+                                <label class="block text-[8px] text-zinc-500 font-black uppercase mb-1">Audio / VO</label>
+                                <p class="text-[10px] text-pink-100 font-medium">${s.audio}</p>
                             </div>
                         </div>
 
-                        <div class="pt-4 border-t border-white/5 space-y-4">
-                            <label class="text-[8px] font-black text-zinc-600 uppercase tracking-widest block">Manajemen Revisi Danu</label>
-                            
-                            <div class="space-y-2 max-h-40 overflow-y-auto pr-2 custom-scrollbar">
-                                ${sceneComments.length === 0 ? '<p class="text-[10px] text-zinc-700 italic">Belum ada catatan.</p>' : ''}
+                        <!-- Danu's Revision System -->
+                        <div class="pt-4 border-t border-white/5 space-y-3">
+                             <div class="flex gap-2">
+                                <input type="text" id="input-${s.id}" placeholder="Tambah catatan Danu..." 
+                                    class="flex-1 bg-white/5 rounded-xl px-4 py-3 text-[11px] font-medium outline-none border border-white/5 focus:border-blue-500 transition-all text-white placeholder:text-zinc-600">
+                                <button onclick="addComment(${s.id})" class="bg-white/10 hover:bg-white/20 px-4 rounded-xl text-[10px] font-black text-white active:scale-95">
+                                    Simpan
+                                </button>
+                            </div>
+                            <div class="space-y-2 max-h-32 overflow-y-auto hide-scrollbar">
                                 ${sceneComments.map(c => `
-                                    <div class="comment-item flex items-center justify-between gap-3 bg-white/5 p-3 rounded-xl border border-white/5 ${c.completed ? 'opacity-40' : ''}">
-                                        <div class="flex items-center gap-3">
-                                            <button onclick="toggleComment(${s.id}, ${c.id})" class="w-5 h-5 rounded-md border-2 ${c.completed ? 'bg-green-500 border-green-500' : 'border-zinc-700'} flex items-center justify-center transition-all">
-                                                ${c.completed ? '<i class="fas fa-check text-[10px] text-white"></i>' : ''}
-                                            </button>
-                                            <span class="text-[11px] font-medium ${c.completed ? 'line-through text-zinc-500' : 'text-zinc-200'}">${c.text}</span>
-                                        </div>
-                                        <button onclick="deleteComment(${s.id}, ${c.id})" class="text-zinc-600 hover:text-red-500 transition-colors">
-                                            <i class="fas fa-trash-alt text-[10px]"></i>
+                                    <div class="flex items-center justify-between gap-3 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <span class="text-[10px] text-zinc-400 truncate">${c.text}</span>
+                                        <button onclick="deleteComment(${s.id}, ${c.id})" class="text-zinc-600 hover:text-red-500 p-1">
+                                            <i class="fas fa-trash-alt text-[8px]"></i>
                                         </button>
                                     </div>
                                 `).join('')}
-                            </div>
-
-                            <div class="flex gap-2">
-                                <input type="text" id="input-${s.id}" placeholder="Tambah instruksi..." 
-                                    class="flex-1 custom-input rounded-xl px-4 py-2 text-[10px] font-medium outline-none border border-white/5 focus:border-blue-500 transition-all"
-                                    onkeypress="if(event.key === 'Enter') addComment(${s.id})">
-                                <button onclick="addComment(${s.id})" class="bg-white/10 hover:bg-white/20 p-2 px-4 rounded-xl text-[10px] font-black transition-all text-white">
-                                    Simpan
-                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
                 `;
             }).join('');
+        }
+
+        function addComment(sceneId) {
+            const input = document.getElementById(`input-${sceneId}`);
+            if(!input.value.trim()) return;
+            if(!comments[sceneId]) comments[sceneId] = [];
+            comments[sceneId].push({ id: Date.now(), text: input.value.trim() });
+            input.value = "";
+            saveAndRender();
+        }
+
+        function deleteComment(sceneId, commentId) {
+            comments[sceneId] = comments[sceneId].filter(c => c.id !== commentId);
+            saveAndRender();
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('bb_comments_v3', JSON.stringify(comments));
+            renderCards(document.querySelector('.tab-btn.active').id.replace('tab-', '').toUpperCase());
         }
 
         document.getElementById('pass-field').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAuth(); });
