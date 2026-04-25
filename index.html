@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANYUBRAMANTA - STORYBOARD VIEWER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .scene-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #1e293b;
+        }
+
+        .scene-card:hover {
+            transform: translateY(-3px);
+            border-color: #0ea5e9;
+            background-color: #0f172a;
+        }
+
+        .active-scene {
+            border-color: #0ea5e9;
+            background-color: #0f172a;
+            border-left-width: 4px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .location-tag {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 10px;
+        }
+
+        #access-overlay {
+            position: fixed;
+            inset: 0;
+            background: #020617;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shake-animation {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        .hidden-content { display: none !important; }
+    </style>
+</head>
+<body class="p-4 md:p-6 lg:p-10">
+
+    <!-- Access Control Overlay -->
+    <div id="access-overlay">
+        <div class="glass-panel p-8 rounded-3xl max-w-md w-full text-center space-y-6">
+            <div class="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-lock text-blue-400 text-3xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold tracking-tight uppercase">AKSES TERBATAS</h2>
+            <p class="text-slate-400 text-sm uppercase">MASUKKAN KODE AKSES KHUSUS <br><span class="text-blue-400 font-bold uppercase tracking-widest">BANYUBRAMANTA</span></p>
+            <div class="space-y-4">
+                <input type="text" id="access-code-input" placeholder="KODE AKSES" autocomplete="off" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors text-center font-bold tracking-widest uppercase text-white">
+                <button id="submit-access" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-blue-900/20 uppercase tracking-widest">BUKA STORYBOARD</button>
+                <p id="error-message" class="text-red-400 text-xs hidden italic uppercase">KODE SALAH! PASTIKAN KETIK: BANYUJAYA</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content" class="hidden-content">
+        <!-- Header Section -->
+        <header class="max-w-7xl mx-auto mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <div class="inline-block px-3 py-1 mb-2 text-[10px] font-bold tracking-[0.2em] uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">
+                    PRODUCTION DASHBOARD
+                </div>
+                <h1 class="text-4xl md:text-5xl font-black gradient-text tracking-tight uppercase">BANYUBRAMANTA</h1>
+                <p class="text-slate-400 mt-2 italic uppercase">SISTEM MONITORING VISUAL & STORYLINE PROFIL PERUSAHAAN</p>
+            </div>
+            <div id="location-status" class="glass-panel px-4 py-2 rounded-lg text-xs flex items-center gap-3">
+                <span class="w-2 h-2 rounded-full bg-green-500 location-tag"></span>
+                <span class="text-slate-300 font-mono uppercase" id="geo-text">GPS: DETECTING...</span>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Navigation Panel -->
+            <div class="lg:col-span-3 space-y-3 max-h-[80vh] overflow-y-auto pr-2 custom-scrollbar">
+                <h2 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">SEQUENCE LIST (FULL STORY)</h2>
+                <div id="scene-nav" class="space-y-2">
+                    <!-- Scenes injected by JS -->
+                </div>
+            </div>
+
+            <!-- Main Content Display -->
+            <div class="lg:col-span-9 space-y-6">
+                <div id="display-area" class="glass-panel rounded-3xl p-6 lg:p-8 min-h-[600px]">
+                    <!-- Default State -->
+                    <div class="h-full flex flex-col items-center justify-center text-center opacity-40">
+                        <i class="fas fa-satellite-dish text-6xl mb-6"></i>
+                        <h3 class="text-xl font-bold uppercase">MENUNGGU INPUT DATA</h3>
+                        <p class="uppercase">PILIH SALAH SATU ADEGAN DARI NAVIGASI UNTUK MEMULAI VISUALISASI.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const CORRECT_CODE = "BANYUJAYA";
+            const inputField = document.getElementById('access-code-input');
+            const submitBtn = document.getElementById('submit-access');
+            const errorMsg = document.getElementById('error-message');
+            const overlay = document.getElementById('access-overlay');
+            const mainContent = document.getElementById('main-content');
+            const panel = overlay.querySelector('.glass-panel');
+
+            inputField.focus();
+
+            function checkAccess() {
+                const val = inputField.value.replace(/\s+/g, '').toUpperCase();
+                
+                if (val === CORRECT_CODE) {
+                    overlay.classList.add('hidden-content');
+                    mainContent.classList.remove('hidden-content');
+                    initApp();
+                } else {
+                    errorMsg.classList.remove('hidden');
+                    panel.classList.add('shake-animation');
+                    setTimeout(() => panel.classList.remove('shake-animation'), 500);
+                    inputField.value = "";
+                }
+            }
+
+            submitBtn.addEventListener('click', checkAccess);
+            inputField.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkAccess();
+            });
+
+            const scenes = [
+                { id: 1, title: "SPARK: ROBOT AIR", visual: "EXTREME CLOSE UP: PUPIL MATA SESEORANG YANG MELIHAT ROBOT AIR BERGERAK LINCAH.", script: "(SFX: SUARA AIR TENANG, AMBIENCE FUTURISTIK RENDAH)", storyline: "ADEGAN PEMBUKA UNTUK MEMIKAT AUDIENS.", category: "ACT I", location: "KOLAM UJI LAB", icon: "fa-eye", image: "https://images.unsplash.com/photo-1516339901600-2e3a82dc50d5?auto=format&fit=crop&q=80&w=800" },
+                { id: 2, title: "FOOTAGE: GEDUNG", visual: "WIDE SHOT: KEMEGAHAN GEDUNG ROBOTIKA ITS.", script: "(SFX: MUSIK MULAI MASUK—TEMPO LAMBAT TAPI MEGAH)", storyline: "MEMBANGUN KESAN PRESTISIUS.", category: "ACT I", location: "GEDUNG ROBOTIKA ITS", icon: "fa-building", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" },
+                { id: 3, title: "IDENTITAS JAKET", visual: "MEDIUM SHOT: FOKUS TAJAM PADA TULISAN BANYUBRAMANTA DI PUNGGUNG JAKET.", script: "\"SEBUAH INOVASI TIDAK PERNAH LAHIR DARI KESUNYIAN...\"", storyline: "MENONJOLKAN KEBANGGAAN IDENTITAS TIM.", category: "ACT I", location: "KORIDOR GEDUNG", icon: "fa-user-tag", image: "https://images.unsplash.com/photo-1551694511-30474c9530c8?auto=format&fit=crop&q=80&w=800" },
+                { id: 4, title: "ANIMASI LOGO", visual: "MOTION GRAPHICS: TRANSISI JAKET MENJADI LOGO BANYUBRAMANTA.", script: "\"IA LAHIR DARI KEBERANIAN UNTUK MENCOBA.\"", storyline: "JEMBATAN TRANSISI MENUJU KONTEN UTAMA.", category: "ACT I", location: "POST-PRODUCTION SPACE", icon: "fa-sync", image: "https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=800" },
+                { id: 5, title: "GENERAL MANAGER", visual: "MEDIUM SHOT: GM MAS FAREL MELIPAT TANGAN DI DADA.", script: "\"KAMI ADALAH BANYUBRAMANTA. TIM RISET ROBOTIKA BAWAH AIR ITS.\"", storyline: "MEMPERKENALKAN KEPEMIMPINAN TIM.", category: "ACT II", location: "LOBBY LAB", icon: "fa-user-shield", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800" },
+                { id: 6, title: "FOOTAGE: SKALA LAB", visual: "DRONE SHOT: GEDUNG MULAI MENJAUH DIIKUTI FOOTAGE JALAN MENUJU LAB.", script: "\"DI SINILAH, SETIAP IDE BESAR MULAI DITEMPA.\"", storyline: "MENUNJUKKAN LINGKUNGAN KERJA PROFESIONAL.", category: "ACT II", location: "AREA LUAR & LAB", icon: "fa-road", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800" },
+                { id: 7, title: "TECHNICAL: BUBUT", visual: "CLOSE UP: MEKANIK SEDANG MELAKUKAN PROSES MEMBUBUT LOGAM.", script: "\"MEMADUKAN KETANGGUHAN MEKANIK...\"", storyline: "PROSES MANUFAKTUR MANDIRI.", category: "ACT II", location: "MECHANICAL WORKSHOP", icon: "fa-tools", image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=800" },
+                { id: 8, title: "TECHNICAL: 3D & CODE", visual: "MONTAGE: 3D PRINTING DAN BARISAN KODE PROGRAM.", script: "\"...DENGAN KECERDASAN ALGORITMA MARITIM.\"", storyline: "PERPADUAN HARDWARE DAN SOFTWARE.", category: "ACT II", location: "DEV DESK", icon: "fa-code", image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800" },
+                { id: 9, title: "TECHNICAL: SOLDER", visual: "EXTREME CLOSE UP: TANGAN TELITI MENYOLDER PCB.", script: "(SFX: SUARA SOLDER) \"SETIAP DETAIL ADALAH PENENTU.\"", storyline: "KETELITIAN SISTEM KELISTRIKAN.", category: "ACT II", location: "ELECTRICAL LAB", icon: "fa-microchip", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800" },
+                { id: 10, title: "VISIONARY SESSION", visual: "MEDIUM SHOT: MAS FAREL BERBICARA MENGENAI VISI MISI.", script: "\"VISI KAMI ADALAH MEMBAWA TEKNOLOGI MARITIM KE KANCAH DUNIA.\"", storyline: "PENYAMPAIAN TUJUAN BESAR.", category: "ACT III", location: "PLAZA ROBOTIKA", icon: "fa-comment-dots", image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800" },
+                { id: 11, title: "MONTAGE: PROGRESS", visual: "MONTAGE: CUPLIKAN LOMBA DAN ROBOT TRIAL DI KOLAM.", script: "\"MELALUI KOMPETISI, KAMI MENGUJI BATAS KEMAMPUAN.\"", storyline: "AKTIVITAS RIIL DI LAPANGAN.", category: "ACT III", location: "VENUE LOMBA & KOLAM", icon: "fa-swimmer", image: "https://images.unsplash.com/photo-1544391682-171734a17905?auto=format&fit=crop&q=80&w=800" },
+                { id: 12, title: "TEAM DYNAMIC", visual: "CANDID: DISKUSI TIM (FOKUS TULISAN BELAKANG JAKET).", script: "\"BANYUBRAMANTA BUKAN HANYA TENTANG ROBOT, TAPI MANUSIANYA.\"", storyline: "MENONJOLKAN SISI HUMANIS.", category: "ACT III", location: "MEETING ROOM", icon: "fa-users", image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800" },
+                { id: 13, title: "HISTORY & LEGACY", visual: "FAST CUTS: CUPLIKAN FOTO SEJARAH BANYUBRAMANTA.", script: "\"TUMBUH MELALUI SEJARAH PANJANG.\"", storyline: "MEMBANGUN RASA PERCAYA.", category: "ACT IV", location: "DIGITAL ARCHIVE", icon: "fa-history", image: "https://images.unsplash.com/photo-1454165833767-027ffea9e77b?auto=format&fit=crop&q=80&w=800" },
+                { id: 14, title: "ACHIEVEMENT: PIALA", visual: "FOLLOW SHOT: MELETAK KAN PIALA BARU DI LEMARI PIALA.", script: "\"SETIAP TROFI ADALAH BUKTI NYATA DEDIKASI.\"", storyline: "VALIDASI KESUKSESAN.", category: "ACT IV", location: "HALL OF FAME", icon: "fa-trophy", image: "https://images.unsplash.com/photo-1578262825743-a4e402caab76?auto=format&fit=crop&q=80&w=800" },
+                { id: 15, title: "CLOSING: PARADE", visual: "WIDE SHOT: PARADE ANGGOTA MENGGUNAKAN ALMAMATER DAN JAKET TIM.", script: "\"KAMI ADALAH MASA DEPAN MARITIM.\"", storyline: "PENUTUPAN YANG PENUH SEMANGAT.", category: "ACT V", location: "AREA KAMPUS ITS", icon: "fa-flag", image: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&q=80&w=800" },
+                { id: 16, title: "FINAL OUTRO", visual: "DRONE SHOT: KAMERA PULL BACK DARI BUNDARAN ITS. LOGO MUNCUL.", script: "\"BANYUBRAMANTA. SPIRIT OF EXCELLENCE.\"", storyline: "KESAN IKONIK PENUTUP.", category: "ACT V", location: "BUNDARAN ITS", icon: "fa-bullseye", image: "https://images.unsplash.com/photo-1506466010722-395aa2bef877?auto=format&fit=crop&q=80&w=800" }
+            ];
+
+            function renderDetail(id) {
+                const scene = scenes.find(s => s.id === id);
+                const display = document.getElementById('display-area');
+
+                document.querySelectorAll('.scene-card').forEach(el => el.classList.remove('active-scene'));
+                const selectedCard = document.querySelector(`[data-id="${id}"]`);
+                if(selectedCard) selectedCard.classList.add('active-scene');
+
+                const lat = (-7.2795 + (Math.random() * 0.005)).toFixed(5);
+                const lng = (112.7970 + (Math.random() * 0.005)).toFixed(5);
+                document.getElementById('geo-text').innerText = `LOC: ${lat}° S, ${lng}° E | ${scene.location.toUpperCase()}`;
+
+                display.innerHTML = `
+                    <div class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+                        <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                            <div>
+                                <span class="text-blue-400 font-black text-[10px] tracking-tighter uppercase mb-1 block">${scene.category} • SCENE ${scene.id}</span>
+                                <h3 class="text-3xl font-bold uppercase">${scene.title}</h3>
+                            </div>
+                            <div class="bg-blue-600 px-4 py-2 rounded-xl flex items-center gap-2">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span class="text-sm font-bold uppercase">${scene.location}</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div class="space-y-6">
+                                <div class="aspect-video rounded-2xl overflow-hidden relative border border-slate-700 group">
+                                    <img src="${scene.image}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Visual Preview">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4 text-[10px] italic text-slate-400 uppercase">
+                                        <i class="fas fa-camera mr-2"></i>MOCKUP SHOT VISUALIZATION
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-700">
+                                    <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">VISUAL ARAHAN</h4>
+                                    <p class="text-slate-200 text-sm leading-relaxed uppercase">${scene.visual}</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div class="bg-blue-600/10 p-5 rounded-2xl border border-blue-500/20">
+                                    <h4 class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-3">VOICE OVER / AUDIO</h4>
+                                    <p class="text-xl font-medium text-blue-50 italic uppercase">"${scene.script}"</p>
+                                </div>
+
+                                <div class="bg-indigo-600/10 p-5 rounded-2xl border border-indigo-500/20">
+                                    <h4 class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-3">ALUR STORYLINE</h4>
+                                    <p class="text-slate-300 text-sm leading-relaxed uppercase">${scene.storyline}</p>
+                                </div>
+
+                                <div class="pt-4 grid grid-cols-3 gap-2">
+                                    <div class="p-3 bg-slate-800 rounded-lg text-center border border-slate-700/50">
+                                        <span class="block text-[9px] text-slate-500 uppercase font-bold">DURASI</span>
+                                        <span class="text-sm font-bold">~00:${scene.id < 10 ? '08' : '12'}S</span>
+                                    </div>
+                                    <div class="p-3 bg-slate-800 rounded-lg text-center border border-slate-700/50">
+                                        <span class="block text-[9px] text-slate-500 uppercase font-bold">ALAT</span>
+                                        <span class="text-xs font-bold text-blue-400 uppercase">${scene.id === 16 || scene.id === 6 ? 'DRONE' : 'GIMBAL'}</span>
+                                    </div>
+                                    <div class="p-3 bg-slate-800 rounded-lg text-center border border-slate-700/50">
+                                        <span class="block text-[9px] text-slate-500 uppercase font-bold">MOOD</span>
+                                        <span class="text-xs font-bold uppercase tracking-widest">EPIC</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function initApp() {
+                const nav = document.getElementById('scene-nav');
+                nav.innerHTML = ''; 
+                scenes.forEach(s => {
+                    const card = document.createElement('div');
+                    card.className = "scene-card p-3 rounded-xl cursor-pointer flex items-center gap-3 bg-slate-900/40";
+                    card.setAttribute('data-id', s.id);
+                    card.innerHTML = `
+                        <div class="w-8 h-8 rounded bg-slate-800 flex items-center justify-center text-blue-400 text-xs shadow-inner">
+                            <i class="fas ${s.icon}"></i>
+                        </div>
+                        <div class="flex-1 overflow-hidden">
+                            <h4 class="text-[11px] font-bold text-slate-200 truncate uppercase">${s.title}</h4>
+                            <p class="text-[9px] text-slate-500 uppercase tracking-tight font-semibold">${s.category}</p>
+                        </div>
+                    `;
+                    card.onclick = () => renderDetail(s.id);
+                    nav.appendChild(card);
+                });
+                renderDetail(1);
+            }
+        });
+    </script>
+</body>
+</html>
